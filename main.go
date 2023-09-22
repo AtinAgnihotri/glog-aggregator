@@ -14,12 +14,6 @@ type ServerConf struct {
 	PORT string
 }
 
-func V1Handler(serverConf *ServerConf) http.Handler {
-	r := chi.NewRouter()
-
-	return r
-}
-
 func main() {
 
 	serverConf := ServerConf{}
@@ -40,6 +34,7 @@ func main() {
 	corsHandler := cors.Handler(cors.Options{})
 	router.Use(corsHandler)
 
+	// Mount v1 Handlers
 	router.Mount("/v1", V1Handler(&serverConf))
 
 	server := &http.Server{
