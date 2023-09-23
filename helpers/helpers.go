@@ -20,3 +20,8 @@ func RespondWithJSON(w http.ResponseWriter, status int, payload interface{}) err
 func RespondWithError(w http.ResponseWriter, code int, msg string) error {
 	return RespondWithJSON(w, code, map[string]string{"error": msg})
 }
+
+func DecodeBodyToJson[T any](r *http.Request, data *T) error {
+	decoder := json.NewDecoder(r.Body)
+	return decoder.Decode(&data)
+}
