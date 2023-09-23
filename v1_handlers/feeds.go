@@ -15,7 +15,16 @@ type FeedRequest struct {
 	Url  string `json:"url"`
 }
 
-// func (v1 *V1Handlers) GetAllFeeds(w http.ResponseWriter, r *http.Request) {}
+func (v1 *V1Handlers) GetAllFeeds(w http.ResponseWriter, r *http.Request) {
+	feeds, err := v1.DB.GetFeeds(r.Context())
+
+	if err != nil {
+		helpers.RespondWithError(w, http.StatusInternalServerError, "Unable to fetch feeds")
+		return
+	}
+
+	helpers.RespondWithJSON(w, http.StatusOK, feeds)
+}
 
 func (v1 *V1Handlers) CreateFeed(w http.ResponseWriter, r *http.Request, user database.User) {
 	feedReq := FeedRequest{}
