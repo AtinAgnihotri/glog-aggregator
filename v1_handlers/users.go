@@ -1,10 +1,12 @@
 package v1handlers
 
 import (
+	"fmt"
 	"net/http"
 	"time"
 
 	"github.com/AtinAgnihotri/glog-aggregator/helpers"
+	"github.com/AtinAgnihotri/glog-aggregator/internal/auth"
 	"github.com/AtinAgnihotri/glog-aggregator/internal/database"
 	"github.com/google/uuid"
 )
@@ -42,4 +44,24 @@ func (usrHandler *UserHandlers) CreateUser(w http.ResponseWriter, r *http.Reques
 
 	helpers.RespondWithJSON(w, http.StatusCreated, usr)
 
+}
+
+func (usrHandler *UserHandlers) GetUser(w http.ResponseWriter, r *http.Request) {
+	defer r.Body.Close()
+
+	apiKey, err := auth.GetAuthApiKey(r)
+
+	if err != nil {
+		helpers.RespondWithError(w, http.StatusUnauthorized, "ApiKey not found")
+		return
+	}
+
+	usr, err := usrHandler.DB.GetUserByApiKey(r.Context(), apiKey)
+
+	if err != nil {
+		helpers.RespondWithError(w, http.StatusNotFound, fmt.Sprintf("User with ApiKey %v Not Found", apiKey))
+		return
+	}
+
+	helpers.RespondWithJSON(w, http.StatusOK, usr)
 }

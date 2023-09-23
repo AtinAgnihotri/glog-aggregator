@@ -20,5 +20,7 @@ func V1Handler(serverConf *ServerConf) http.Handler {
 
 	r.Post("/users", userHandlers.CreateUser)
 
+	r.Get("/users", userHandlers.GetUser)
+
 	return r
 }
