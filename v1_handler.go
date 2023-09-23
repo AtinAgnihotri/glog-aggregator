@@ -22,5 +22,7 @@ func V1Handler(serverConf *ServerConf) http.Handler {
 
 	r.Get("/users", v1Handlers.MiddlewareAuth(v1Handlers.GetUser))
 
+	r.Post("/feeds", v1Handlers.MiddlewareAuth(v1Handlers.CreateFeed))
+
 	return r
 }
