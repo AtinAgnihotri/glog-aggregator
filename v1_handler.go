@@ -10,7 +10,7 @@ import (
 func V1Handler(serverConf *ServerConf) http.Handler {
 	r := chi.NewRouter()
 
-	userHandlers := v1handlers.UserHandlers{
+	v1Handlers := v1handlers.V1Handlers{
 		DB: serverConf.DB,
 	}
 
@@ -18,9 +18,9 @@ func V1Handler(serverConf *ServerConf) http.Handler {
 
 	r.Get("/err", v1handlers.Err)
 
-	r.Post("/users", userHandlers.CreateUser)
+	r.Post("/users", v1Handlers.CreateUser)
 
-	r.Get("/users", userHandlers.GetUser)
+	r.Get("/users", v1Handlers.MiddlewareAuth(v1Handlers.GetUser))
 
 	return r
 }

@@ -1,12 +1,10 @@
 package v1handlers
 
 import (
-	"fmt"
 	"net/http"
 	"time"
 
 	"github.com/AtinAgnihotri/glog-aggregator/helpers"
-	"github.com/AtinAgnihotri/glog-aggregator/internal/auth"
 	"github.com/AtinAgnihotri/glog-aggregator/internal/database"
 	"github.com/google/uuid"
 )
@@ -15,11 +13,7 @@ type UserRequest struct {
 	Name string `json:"name"`
 }
 
-type UserHandlers struct {
-	DB *database.Queries
-}
-
-func (usrHandler *UserHandlers) CreateUser(w http.ResponseWriter, r *http.Request) {
+func (v1 *V1Handlers) CreateUser(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 
 	userRequest := UserRequest{}
@@ -30,7 +24,7 @@ func (usrHandler *UserHandlers) CreateUser(w http.ResponseWriter, r *http.Reques
 		return
 	}
 
-	usr, err := usrHandler.DB.CreateUser(r.Context(), database.CreateUserParams{
+	usr, err := v1.DB.CreateUser(r.Context(), database.CreateUserParams{
 		ID:        uuid.New(),
 		CreatedAt: time.Now(),
 		UpdatedAt: time.Now(),
@@ -46,22 +40,6 @@ func (usrHandler *UserHandlers) CreateUser(w http.ResponseWriter, r *http.Reques
 
 }
 
-func (usrHandler *UserHandlers) GetUser(w http.ResponseWriter, r *http.Request) {
-	defer r.Body.Close()
-
-	apiKey, err := auth.GetAuthApiKey(r)
-
-	if err != nil {
-		helpers.RespondWithError(w, http.StatusUnauthorized, "ApiKey not found")
-		return
-	}
-
-	usr, err := usrHandler.DB.GetUserByApiKey(r.Context(), apiKey)
-
-	if err != nil {
-		helpers.RespondWithError(w, http.StatusNotFound, fmt.Sprintf("User with ApiKey %v Not Found", apiKey))
-		return
-	}
-
-	helpers.RespondWithJSON(w, http.StatusOK, usr)
+func (v1 *V1Handlers) GetUser(w http.ResponseWriter, r *http.Request, user database.User) {
+	helpers.RespondWithJSON(w, http.StatusOK, user)
 }
