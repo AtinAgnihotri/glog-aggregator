@@ -8,10 +8,11 @@ import (
 )
 
 const (
-	readiness = "/readiness"
-	err       = "/err"
-	users     = "/users"
-	feeds     = "/feeds"
+	readiness    = "/readiness"
+	err          = "/err"
+	users        = "/users"
+	feeds        = "/feeds"
+	feed_follows = "/feed_follows"
 )
 
 func V1Handler(serverConf *ServerConf) http.Handler {
@@ -32,6 +33,11 @@ func V1Handler(serverConf *ServerConf) http.Handler {
 	// /feeds endpoint
 	r.Post(feeds, v1Handlers.MiddlewareAuth(v1Handlers.CreateFeed))
 	r.Get(feeds, v1Handlers.GetAllFeeds)
+
+	// /feed_follows endpoint
+	r.Post(feed_follows, v1Handlers.MiddlewareAuth(v1Handlers.FollowFeed))
+	r.Delete(feed_follows+"/{feedFollowID}", v1Handlers.MiddlewareAuth(v1Handlers.RemoveFeedFollowing))
+	r.Get(feed_follows, v1Handlers.MiddlewareAuth(v1Handlers.GetFeedFollowingsByUser))
 
 	return r
 }

@@ -13,9 +13,9 @@ type V1Handlers struct {
 	DB *database.Queries
 }
 
-type authedHandler func(http.ResponseWriter, *http.Request, database.User)
+type AuthedHandlerFunc func(http.ResponseWriter, *http.Request, database.User)
 
-func (v1 *V1Handlers) MiddlewareAuth(handler authedHandler) http.HandlerFunc {
+func (v1 *V1Handlers) MiddlewareAuth(handler AuthedHandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		defer r.Body.Close()
 
