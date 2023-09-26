@@ -7,6 +7,7 @@ import (
 	"os"
 
 	"github.com/AtinAgnihotri/glog-aggregator/internal/database"
+
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/cors"
 	"github.com/joho/godotenv"

@@ -22,6 +22,8 @@ func V1Handler(serverConf *ServerConf) http.Handler {
 		DB: serverConf.DB,
 	}
 
+	go v1handlers.RssWorker(&v1Handlers)
+
 	// health check endpoints
 	r.Get(readiness, v1handlers.Readiness)
 	r.Get(err, v1handlers.Err)
