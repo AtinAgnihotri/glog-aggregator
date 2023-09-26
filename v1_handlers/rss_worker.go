@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
+	"strings"
 	"sync"
 	"time"
 
@@ -53,7 +54,9 @@ func fetchRssAndUpdateDB(feed database.Feed, wg *sync.WaitGroup, v1 *V1Handlers)
 		})
 
 		if err != nil {
-			log.Printf("Unable to create post: %v\n", err)
+			if strings.Contains(err.Error(), "duplicate key") {
+				log.Printf("Unable to create post: %v\n", err)
+			}
 			continue
 		}
 
