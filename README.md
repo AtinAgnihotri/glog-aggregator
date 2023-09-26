@@ -169,4 +169,31 @@ Sample url:
 
 `/v1/posts/2`: Will fetch 2 latest posts
 
+Sample Response:
+
+```json
+[
+  {
+    "id": "cca24b68-bb52-4c3c-9657-90506474ad0f",
+    "created_at": "2023-09-26T23:39:29.4801Z",
+    "updated_at": "2023-09-26T23:39:29.4801Z",
+    "title": "Learn to Code the Slow Way",
+    "url": "https://blog.boot.dev/education/learn-to-code-the-slow-way/",
+    "description": "Ever since starting Boot.dev, I&rsquo;ve been flooded with what I call &ldquo;quicksand questions&rdquo;. On the surface, a quicksand question seems like a good question.",
+    "published_at": "0000-01-01T00:00:00Z",
+    "feed_id": "1533df7a-78d9-46fd-abf4-9004c1230f6e"
+  },
+  {
+    "id": "5ec272d8-0eb1-43ad-bf89-7639d6d372da",
+    "created_at": "2023-09-26T23:39:29.473784Z",
+    "updated_at": "2023-09-26T23:39:29.473784Z",
+    "title": "What Does a Web Developer Earn?",
+    "url": "https://blog.boot.dev/jobs/what-does-webdev-earn/",
+    "description": "As always, the short answer is easiest: On average, according to Indeed, an American web developer earns $81,034 per year.",
+    "published_at": "0000-01-01T00:00:00Z",
+    "feed_id": "1533df7a-78d9-46fd-abf4-9004c1230f6e"
+  }
+]
+```
+
 If limit is not defined, or incorrectly sent, fetches the 10 latest posts
