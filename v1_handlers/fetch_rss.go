@@ -25,12 +25,12 @@ type Rss struct {
 		Language      string `xml:"language"`
 		LastBuildDate string `xml:"lastBuildDate"`
 		Item          []struct {
-			Text        string `xml:",chardata"`
-			Title       string `xml:"title"`
-			Link        string `xml:"link"`
-			PubDate     string `xml:"pubDate"`
-			Guid        string `xml:"guid"`
-			Description string `xml:"description"`
+			Text        string  `xml:",chardata"`
+			Title       string  `xml:"title"`
+			Link        string  `xml:"link"`
+			PubDate     *string `xml:"pubDate"`
+			Guid        string  `xml:"guid"`
+			Description *string `xml:"description"`
 		} `xml:"item"`
 	} `xml:"channel"`
 }

@@ -13,6 +13,7 @@ const (
 	users        = "/users"
 	feeds        = "/feeds"
 	feed_follows = "/feed_follows"
+	posts        = "/posts"
 )
 
 func V1Handler(serverConf *ServerConf) http.Handler {
@@ -40,6 +41,10 @@ func V1Handler(serverConf *ServerConf) http.Handler {
 	r.Post(feed_follows, v1Handlers.MiddlewareAuth(v1Handlers.FollowFeed))
 	r.Delete(feed_follows+"/{feedFollowID}", v1Handlers.MiddlewareAuth(v1Handlers.RemoveFeedFollowing))
 	r.Get(feed_follows, v1Handlers.MiddlewareAuth(v1Handlers.GetFeedFollowingsByUser))
+
+	// /posts endpoint
+	r.Get(posts, v1Handlers.MiddlewareAuth(v1Handlers.GetPosts))
+	r.Get(posts+"/{limit}", v1Handlers.MiddlewareAuth(v1Handlers.GetPosts))
 
 	return r
 }
